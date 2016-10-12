@@ -13,7 +13,7 @@ you need to include
 
 the init of the Ethernetinterface changed, the ordner is now:
 
-*mac, ip, subnet, gateway, dns* instead *mac, ip, dns, gateway, subnet*
+*mac, ip, subnet, gateway, dns* instead *mac, ip, dns, gateway, subnet*,
 which is more logical
 
     Ethernet.begin(mac, ip, subnet, gateway, dns);
