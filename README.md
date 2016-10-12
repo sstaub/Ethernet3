@@ -51,4 +51,4 @@ added some function to read the MAC address in Ethernet3, this is helpfull when 
 example
 
     uint8_t mac[6]; // array for mac address
-    Ethernet.macAdress(mac);
+    Ethernet.macAddress(mac);
