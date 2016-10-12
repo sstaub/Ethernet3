@@ -7,7 +7,7 @@ added some new functionalities
 you need to include
 
     #include <Ethernet3.h> // instead Ethernet.h
-    #include <EthernetUdp3.h> // instead EthernetUDP.h for UDP functionality
+    #include <EthernetUdp3.h> // instead EthernetUdp.h for UDP functionality
     
 ###- New init procedure **!!!**
 
