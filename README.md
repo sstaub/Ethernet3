@@ -9,7 +9,7 @@ you need to include
     #include <Ethernet3.h> // instead Ethernet.h
     #include <EthernetUdp3.h> // instead EthernetUDP.h for UDP functionality
     
-- new init procedure **!!!**
+###- new init procedure **!!!**
 
 the init of the Ethernetinterface changed, the ordner is now:
 
@@ -18,14 +18,14 @@ which is more logical
 
     Ethernet.begin(mac, ip, subnet, gateway, dns);
     
-- multicast support
+###- multicast support
 
 multicast for udp added
 
     EthernetUdp udp
     upd.beginMulticast(multicastIP, port);
 
-- phy support
+###- phy support
 
 added some function to read the PHYCFGR in Ethernet3
 
@@ -41,7 +41,7 @@ example
 
     Serial.println(Ethernet.linkReport()); 
 
-- mac address
+###- mac address
 
 added some function to read the MAC address in Ethernet3, this is helpfull when you us Wiznet boards like WIZ550io with buildin MAC address
 
