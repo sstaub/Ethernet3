@@ -24,11 +24,8 @@ public:
   virtual void stop();
   virtual uint8_t connected();
   virtual operator bool();
-  virtual bool operator==(const bool value) { return bool() == value; }
-  virtual bool operator!=(const bool value) { return bool() != value; }
   virtual bool operator==(const EthernetClient&);
   virtual bool operator!=(const EthernetClient& rhs) { return !this->operator==(rhs); };
-  uint8_t getSocketNumber();
 
   friend class EthernetServer;
   
