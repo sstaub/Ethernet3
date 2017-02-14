@@ -15,8 +15,11 @@
 #define	W5500_H_INCLUDED
 
 #define MAX_SOCK_NUM 8
-
+#include <Arduino.h>
 #include <SPI.h>
+
+extern uint8_t SPI_CS;
+
 
 typedef uint8_t SOCKET;
 /*
@@ -127,7 +130,8 @@ public:
 class W5500Class {
 
 public:
-  void init();
+  void init(uint8_t ss_pin = 10);
+  uint8_t readVersion(void);
 
   /**
    * @brief	This function is being used for copy the data form Receive buffer of the chip to application buffer.
@@ -330,37 +334,10 @@ private:
   static const uint16_t RSIZE = 2048; // Max Rx buffer size
 
 private:
-#if defined(ARDUINO_ARCH_AVR)
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1284P__)
-  inline static void initSS()    { DDRB  |=  _BV(4); };
-  inline static void setSS()     { PORTB &= ~_BV(4); };
-  inline static void resetSS()   { PORTB |=  _BV(4); };
-#elif defined(__AVR_ATmega32U4__)
-  inline static void initSS()    { DDRB  |=  _BV(6); };
-  inline static void setSS()     { PORTB &= ~_BV(6); };
-  inline static void resetSS()   { PORTB |=  _BV(6); }; 
-#elif defined(__AVR_AT90USB1286__) || defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB162__)
-  inline static void initSS()    { DDRB  |=  _BV(0); };
-  inline static void setSS()     { PORTB &= ~_BV(0); };
-  inline static void resetSS()   { PORTB |=  _BV(0); }; 
-#elif defined(REL_GR_KURUMI) || defined(REL_GR_KURUMI_PROTOTYPE)
-  inline static void initSS()    { pinMode(SS, OUTPUT); 
-                                   digitalWrite(SS, HIGH); };
-  inline static void setSS()     { digitalWrite(SS, LOW); };
-  inline static void resetSS()   { digitalWrite(SS, HIGH); };
-#else
-  inline static void initSS()    { DDRB  |=  _BV(2); };
-  inline static void setSS()     { PORTB &= ~_BV(2); };
-  inline static void resetSS()   { PORTB |=  _BV(2); };
-#endif
-#elif defined(ARDUINO_ARCH_SAMD) 
-  inline static void initSS()    { PORT->Group[g_APinDescription[10].ulPort].PINCFG[g_APinDescription[10].ulPin].reg&=~(uint8_t)(PORT_PINCFG_INEN) ;
-								   PORT->Group[g_APinDescription[10].ulPort].DIRSET.reg = (uint32_t)(1<<g_APinDescription[10].ulPin) ;
-								   PORT->Group[g_APinDescription[10].ulPort].PINCFG[g_APinDescription[10].ulPin].reg=(uint8_t)(PORT_PINCFG_PULLEN) ;
-                                   PORT->Group[g_APinDescription[10].ulPort].OUTSET.reg = (1ul << g_APinDescription[10].ulPin) ; };
-  inline static void setSS()     { PORT->Group[g_APinDescription[10].ulPort].OUTCLR.reg = (1ul << g_APinDescription[10].ulPin) ; };
-  inline static void resetSS()   { PORT->Group[g_APinDescription[10].ulPort].OUTSET.reg = (1ul << g_APinDescription[10].ulPin) ; };
-#endif // ARDUINO_ARCH_AVR
+  // could do inline optimizations
+  static inline void initSS()  { pinMode(SPI_CS, OUTPUT); }
+  static inline void setSS()   {  digitalWrite(SPI_CS, LOW); }
+  static inline void resetSS() {  digitalWrite(SPI_CS, HIGH); }
 };
 
 extern W5500Class w5500;

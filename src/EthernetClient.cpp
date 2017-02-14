@@ -12,7 +12,7 @@ extern "C" {
 #include "EthernetServer.h"
 #include "Dns.h"
 
-uint16_t EthernetClient::_srcport = 1024;
+uint16_t EthernetClient::_srcport = 49152; //Use IANA recommended ephemeral port range 49152-65535
 
 EthernetClient::EthernetClient() : _sock(MAX_SOCK_NUM) {
 }
@@ -51,7 +51,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
     return 0;
 
   _srcport++;
-  if (_srcport == 0) _srcport = 1024;
+  if (_srcport == 0) _srcport = 49152; //Use IANA recommended ephemeral port range 49152-65535
   socket(_sock, SnMR::TCP, _srcport, 0);
 
   if (!::connect(_sock, rawIPAddress(ip), port)) {
@@ -132,8 +132,13 @@ void EthernetClient::stop() {
   unsigned long start = millis();
 
   // wait a second for the connection to close
-  while (status() != SnSR::CLOSED && millis() - start < 1000)
-    delay(1);
+  uint8_t s;
+   do {
+     s = status();
+     if (s == SnSR::CLOSED)
+     break; // exit the loop
+     delay(1);
+   } while (millis() - start < 1000);
 
   // if it hasn't closed, close it forcefully
   if (status() != SnSR::CLOSED)
@@ -165,4 +170,8 @@ EthernetClient::operator bool() {
 
 bool EthernetClient::operator==(const EthernetClient& rhs) {
   return _sock == rhs._sock && _sock != MAX_SOCK_NUM && rhs._sock != MAX_SOCK_NUM;
+}
+
+uint8_t EthernetClient::getSocketNumber() {
+  return _sock;
 }
