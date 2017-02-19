@@ -83,7 +83,7 @@ int EthernetClass::begin(uint8_t *mac_address)
 {
   _dhcp = new DhcpClass();
   // Initialise the basic info
-  w5500.init();
+  w5500.init(w5500_cspin);
   w5500.setMACAddress(mac_address);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
 
@@ -128,7 +128,7 @@ void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress su
 
 void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server)
 {
-  w5500.init();
+  w5500.init(w5500_cspin);
   w5500.setMACAddress(mac);
   w5500.setIPAddress(local_ip.raw_address());
   w5500.setGatewayIp(gateway.raw_address());
