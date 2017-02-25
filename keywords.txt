@@ -28,7 +28,6 @@ peek	KEYWORD2
 flush	KEYWORD2
 stop	KEYWORD2
 connected	KEYWORD2
-init	KEYWORD2
 begin	KEYWORD2
 beginMulticast	KEYWORD2
 beginPacket	KEYWORD2
@@ -48,6 +47,11 @@ duplex KEYWORD2
 duplexReport KEYWORD2
 macAddress KEYWORD2
 macAddressReport KEYWORD2
+init KEYWORD2
+softreset KEYWORD2
+hardreset KEYWORD2
+setCsPin KEYWORD2
+setRstPin KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

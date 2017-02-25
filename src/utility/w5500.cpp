@@ -16,7 +16,6 @@
 #include "Arduino.h"
 
 #include "utility/w5500.h"
-//#if defined(W5500_ETHERNET_SHIELD)
 
 // W5500 controller instance
 W5500Class w5500;
@@ -25,7 +24,7 @@ W5500Class w5500;
 SPISettings wiznet_SPI_settings(8000000, MSBFIRST, SPI_MODE0);
 uint8_t SPI_CS;
 
-void W5500Class::init(uint8_t ss_pin)
+void W5500Class::init(uint8_t socketNumbers, uint8_t ss_pin)
 {
   SPI_CS = ss_pin;
 
@@ -33,10 +32,49 @@ void W5500Class::init(uint8_t ss_pin)
   initSS();
   SPI.begin();
 
-  for (int i=0; i<MAX_SOCK_NUM; i++) {
-    uint8_t cntl_byte = (0x0C + (i<<5));
-    write( 0x1E, cntl_byte, 2); //0x1E - Sn_RXBUF_SIZE
-    write( 0x1F, cntl_byte, 2); //0x1F - Sn_TXBUF_SIZE
+  if(socketNumbers == 1) {
+    for (int i = 1; i < MAX_SOCK_NUM; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 0); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 0); //0x1F - Sn_TXBUF_SIZE
+    }
+      uint8_t cntl_byte = (0x0C + (0<<5));
+      write( 0x1E, cntl_byte, 16); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 16); //0x1F - Sn_TXBUF_SIZE
+  }
+
+  else if(socketNumbers == 2) {
+    for (int i = 2; i < MAX_SOCK_NUM; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 0); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 0); //0x1F - Sn_TXBUF_SIZE
+    }
+    for (int i = 0; i < 2; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 8); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 8); //0x1F - Sn_TXBUF_SIZE
+    }
+  }
+
+  else if(socketNumbers == 4) {
+    for (int i = 4; i < MAX_SOCK_NUM; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 0); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 0); //0x1F - Sn_TXBUF_SIZE
+    }
+    for (int i = 0; i < 4; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 4); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 4); //0x1F - Sn_TXBUF_SIZE
+    }
+  }
+
+  else {
+    for (int i = 0; i < MAX_SOCK_NUM; i++) {
+      uint8_t cntl_byte = (0x0C + (i<<5));
+      write( 0x1E, cntl_byte, 2); //0x1E - Sn_RXBUF_SIZE
+      write( 0x1F, cntl_byte, 2); //0x1F - Sn_TXBUF_SIZE
+    }
   }
 }
 
@@ -47,7 +85,7 @@ uint16_t W5500Class::getTXFreeSize(SOCKET s)
         val1 = readSnTX_FSR(s);
         if (val1 != 0)
             val = readSnTX_FSR(s);
-    } 
+    }
     while (val != val1);
     return val;
 }
@@ -59,7 +97,7 @@ uint16_t W5500Class::getRXReceivedSize(SOCKET s)
         val1 = readSnRX_RSR(s);
         if (val1 != 0)
             val = readSnRX_RSR(s);
-    } 
+    }
     while (val != val1);
     return val;
 }
@@ -103,7 +141,7 @@ void W5500Class::read_data(SOCKET s, volatile uint16_t src, volatile uint8_t *ds
 uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
 {
     SPI.beginTransaction(wiznet_SPI_settings);
-    setSS();  
+    setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
     SPI.transfer(_cb);
@@ -145,7 +183,7 @@ uint8_t W5500Class::read(uint16_t _addr, uint8_t _cb)
 }
 
 uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _len)
-{ 
+{
     SPI.beginTransaction(wiznet_SPI_settings);
     setSS();
     SPI.transfer(_addr >> 8);
@@ -183,5 +221,19 @@ uint8_t W5500Class::readVersion(void)
     return _data;
 }
 
+// Soft reset the Wiznet chip, by writing to its MR register reset bit
+uint8_t W5500Class::softReset(void)
+{
+	uint16_t count=0;
+	// write to reset bit
+	writeMR(0x80);
+	// then wait for soft reset to complete
+	do {
+		uint8_t mr = readMR();
+		if (mr == 0) return 1;
+		delay(1);
+	} while (++count < 20);
+	return 0;
+}
 
 //#endif

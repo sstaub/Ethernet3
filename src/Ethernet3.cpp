@@ -17,7 +17,31 @@
 uint8_t EthernetClass::_state[MAX_SOCK_NUM] = { 0, };
 uint16_t EthernetClass::_server_port[MAX_SOCK_NUM] = { 0, };
 
+void EthernetClass::setRstPin(uint8_t pinRST) {
+  _pinRST = pinRST;
+  pinMode(_pinRST, OUTPUT);
+  digitalWrite(_pinRST, HIGH);
+  }
+void EthernetClass::setCsPin(uint8_t pinCS) {
+  _pinCS = pinCS;
+  }
 
+void EthernetClass::init(uint8_t maxSockNum) {
+  _maxSockNum = maxSockNum;
+  }
+
+uint8_t EthernetClass::softreset() {
+  return w5500.softReset();
+  }
+
+void EthernetClass::hardreset() {
+  if(_pinRST != 0) {
+    digitalWrite(_pinRST, LOW);
+    delay(1);
+    digitalWrite(_pinRST, HIGH);
+    delay(150);
+    }
+  }
 
 #if defined(WIZ550io_WITH_MACADDRESS)
 
@@ -27,7 +51,7 @@ int EthernetClass::begin(void)
   _dhcp = new DhcpClass();
 
   // Initialise the basic info
-  w5500.init(w5500_cspin);
+  w5500.init(_maxSockNum, _pinCS);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
   w5500.getMACAddress(mac_address);
 
@@ -71,7 +95,7 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gatewa
 
 void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server)
 {
-  w5500.init(w5500_cspin);
+  w5500.init(_maxSockNum, _pinCS);
   w5500.setIPAddress(local_ip.raw_address());
   w5500.setGatewayIp(gateway.raw_address());
   w5500.setSubnetMask(subnet.raw_address());
@@ -83,7 +107,7 @@ int EthernetClass::begin(uint8_t *mac_address)
 {
   _dhcp = new DhcpClass();
   // Initialise the basic info
-  w5500.init(w5500_cspin);
+  w5500.init(_maxSockNum, _pinCS);
   w5500.setMACAddress(mac_address);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
 
@@ -128,7 +152,7 @@ void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress su
 
 void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server)
 {
-  w5500.init(w5500_cspin);
+  w5500.init(_maxSockNum, _pinCS);
   w5500.setMACAddress(mac);
   w5500.setIPAddress(local_ip.raw_address());
   w5500.setGatewayIp(gateway.raw_address());

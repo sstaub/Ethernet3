@@ -17,20 +17,33 @@
 #include "EthernetServer.h"
 #include "Dhcp.h"
 
-
-
 class EthernetClass {
 private:
   IPAddress _dnsServerAddress;
   DhcpClass* _dhcp;
 public:
-  uint8_t w5500_cspin;
+  uint8_t _maxSockNum;
+  uint8_t _pinCS;
+  uint8_t _pinRST;
 
   static uint8_t _state[MAX_SOCK_NUM];
   static uint16_t _server_port[MAX_SOCK_NUM];
 
-  EthernetClass() { _dhcp = NULL; w5500_cspin = 10; }
-  void init(uint8_t _cspin = 10) { w5500_cspin = _cspin; }
+  EthernetClass() { _dhcp = NULL; _pinCS = 10; _maxSockNum = 8; }
+
+  void setRstPin(uint8_t pinRST = 9); // for WIZ550io or USR-ES1, must set befor Ethernet.begin
+  void setCsPin(uint8_t pinCS = 10); // must set befor Ethernet.begin
+
+  // Initialize with less sockets but more RX/TX Buffer
+  // maxSockNum = 1 Socket 0 -> RX/TX Buffer 16k
+  // maxSockNum = 2 Socket 0, 1 -> RX/TX Buffer 8k
+  // maxSockNum = 4 Socket 0...3 -> RX/TX Buffer 4k
+  // maxSockNum = 8 (Standard) all sockets -> RX/TX Buffer 2k
+  // be carefull of the MAX_SOCK_NUM, because in the moment it can't dynamicly changed
+  void init(uint8_t maxSockNum = 8);
+
+  uint8_t softreset(); // can set only after Ethernet.begin
+  void hardreset(); // You need to set the Rst pin
 
 #if defined(WIZ550io_WITH_MACADDRESS)
 
@@ -66,6 +79,7 @@ public:
 
   void macAddress(uint8_t mac[]); // get the MAC Address
   const char* macAddressReport(); // returns the the MAC Address as a string
+
   IPAddress localIP();
   IPAddress subnetMask();
   IPAddress gatewayIP();
