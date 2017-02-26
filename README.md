@@ -87,7 +87,7 @@ example
 
 ###- Hard- and Software Reset
 
-two new functions to make resets, they can done only after Ethernet.begin(...)
+two new functions to make resets, Softreset can done only after Ethernet.begin(...)
 
 for Hardware Reset you need to set the Pin number
 
