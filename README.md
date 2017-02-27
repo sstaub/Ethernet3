@@ -1,5 +1,5 @@
 # Ethernet3
-Ethernet library for Arduino and Ethernetshield2 / WIZ550io / WIZ850io with Wiznet W5500 chip
+Ethernet library for Arduino and Ethernetshield2 / WIZ550io / WIZ850io / USR-ES1 with Wiznet W5500 chip
 based on the Ethernet2 library of arduino.org
 
 added some new functionalities
