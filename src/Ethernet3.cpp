@@ -11,8 +11,6 @@
 #include "Ethernet3.h"
 #include "Dhcp.h"
 
-#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
-
 // XXX: don't make assumptions about the value of MAX_SOCK_NUM.
 uint8_t EthernetClass::_state[MAX_SOCK_NUM] = { 0, };
 uint16_t EthernetClass::_server_port[MAX_SOCK_NUM] = { 0, };
