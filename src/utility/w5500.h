@@ -315,11 +315,7 @@ public:
   __SOCKET_REGISTER8(SnTOS,       0x0015)        // IP TOS
   __SOCKET_REGISTER8(SnTTL,       0x0016)        // IP TTL
   __SOCKET_REGISTER8(SnRX_SIZE,   0x001E)        // RX Memory Size
-<<<<<<< Updated upstream
-  __SOCKET_REGISTER8(SnTX_SIZE,   0x001F)        // RX Memory Size
-=======
   __SOCKET_REGISTER8(SnTX_SIZE,   0x001F)        // TX Memory Size
->>>>>>> Stashed changes
   __SOCKET_REGISTER16(SnTX_FSR,   0x0020)        // TX Free Size
   __SOCKET_REGISTER16(SnTX_RD,    0x0022)        // TX Read Pointer
   __SOCKET_REGISTER16(SnTX_WR,    0x0024)        // TX Write Pointer
