@@ -9,7 +9,7 @@ you need to include
     #include <Ethernet3.h> // instead Ethernet.h
     #include <EthernetUdp3.h> // instead EthernetUdp.h for UDP functionality
     
-###- New init procedure **!!!**
+## New init procedure **!!!**
 
 the init of the Ethernetinterface changed, the ordner is now:
 
