@@ -18,14 +18,14 @@ which is more logical
 
     Ethernet.begin(mac, ip, subnet, gateway, dns);
     
-###- Multicast support
+## Multicast support
 
 multicast for udp added
 
     EthernetUdp udp
     upd.beginMulticast(multicastIP, port);
 
-###- PHY support
+## PHY support
 
 added some function to read the PHYCFGR in Ethernet3
 
@@ -41,7 +41,7 @@ example
 
     Serial.println(Ethernet.linkReport()); 
 
-###- MAC address
+## MAC address
 
 added some function to read the MAC address in Ethernet3, this is helpfull when you use Wiznet boards like WIZ550io with build in MAC address
 
@@ -53,7 +53,7 @@ example
     uint8_t mac[6]; // array for mac address
     Ethernet.macAddress(mac);
 
-###- Socketnumbers
+## Socketnumbers
 
 you can decrease the socketnumbers to get more free RAM space, this must be done before Ethernet.begin(...)
 
@@ -85,7 +85,7 @@ example
     Ethernet.setRstPin(); // set Pin 9 for RST
     Ethernet.begin();
 
-###- Hard- and Software Reset
+## Hard- and Software Reset
 
 two new functions to make resets, Softreset can done only after Ethernet.begin(...)
 
