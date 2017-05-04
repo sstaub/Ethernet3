@@ -71,7 +71,7 @@ example
     Ethernet.init(4); // reduce to 4 Socket, each with 4k RX/TX buffer
     Ethernet.begin();
     
-###- RST and CS pin settings
+## RST and CS pin settings
 
 you can set the CS and (Hardware) RST (e.g. WIZ550io or USR-ES1), this must be done before Ethernet.begin(...)
 
