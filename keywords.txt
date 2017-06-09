@@ -52,6 +52,18 @@ softreset KEYWORD2
 hardreset KEYWORD2
 setCsPin KEYWORD2
 setRstPin KEYWORD2
+setUnicastBlock	KEYWORD2
+getUnicastBlock	KEYWORD2
+setBroadcastBlock	KEYWORD2
+getBroadcastBlock	KEYWORD2
+setRtTimeOut	KEYWORD2
+getRtTimeOut	KEYWORD2
+setRtCount	KEYWORD2
+getRtCount	KEYWORD2
+setNoDelayedACK	KEYWORD2
+getNoDelayedACK	KEYWORD2
+remoteIP	KEYWORD2
+remoteMAC	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
