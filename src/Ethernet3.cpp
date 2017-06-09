@@ -230,16 +230,16 @@ const char* EthernetClass::duplexReport() {
   else return "NO LINK";
   }
 
-void EthernetClass::setRtTimeOut(uint16_t _time) {
-  w5500.setRetransmissionTime(_time);
+void EthernetClass::setRtTimeOut(uint16_t timeout) {
+  w5500.setRetransmissionTime(timeout);
   }
 
 uint16_t EthernetClass::getRtTimeOut() {
   return w5500.getRetransmissionTime();
   }
 
-void EthernetClass::setRtCount(uint8_t _count) {
-  w5500.setRetransmissionCount(_count);
+void EthernetClass::setRtCount(uint8_t count) {
+  w5500.setRetransmissionCount(count);
   }
 
 uint8_t EthernetClass::getRtCount() {
