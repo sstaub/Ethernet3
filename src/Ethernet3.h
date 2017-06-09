@@ -77,7 +77,7 @@ public:
   uint8_t duplex(); // returns duplex mode 0 = no link, 1 = Half Duplex, 2 = Full Duplex
   const char* duplexReport(); // returns duplex mode as a string
 
-  void setRtTimeOut(uint16_t time = 2000); // set the retransmission timout *100us
+  void setRtTimeOut(uint16_t timeout = 2000); // set the retransmission timout *100us
   uint16_t getRtTimeOut(); // get the retransmission timout
   void setRtCount(uint8_t count = 8); // set the retransmission count
   uint8_t getRtCount(); // get the retransmission count
