@@ -62,6 +62,39 @@ uint8_t EthernetUDP::begin(uint16_t port) {
   return 1;
 }
 
+/* Start EthernetUDP socket, listening at local port PORT */
+uint8_t EthernetUDP::beginMulticast(IPAddress ip, uint16_t port)
+{
+  if (_sock != MAX_SOCK_NUM)
+    return 0;
+  
+  for (int i = 0; i < MAX_SOCK_NUM; i++) {
+    uint8_t s = w5500.readSnSR(i);
+    if (s == SnSR::CLOSED || s == SnSR::FIN_WAIT) {
+      _sock = i;
+      break;
+    }
+  }
+  
+  if (_sock == MAX_SOCK_NUM)
+    return 0;
+  
+  // Calculate MAC address from Multicast IP Address
+  byte mac[] = {  0x01, 0x00, 0x5E, 0x00, 0x00, 0x00 };
+  
+  mac[3] = ip[1] & 0x7F;
+  mac[4] = ip[2];
+  mac[5] = ip[3];
+  
+  w5500.writeSnDIPR(_sock, rawIPAddress(ip));   //239.255.0.1
+  w5500.writeSnDPORT(_sock, port);
+  w5500.writeSnDHAR(_sock,mac);
+  
+  _remaining = 0;
+  socket(_sock, SnMR::UDP, port, SnMR::MULTI);
+  return 1;
+}
+
 /* return number of bytes available in the current packet,
    will return zero if parsePacket hasn't been called yet */
 int EthernetUDP::available() {
@@ -220,36 +253,41 @@ void EthernetUDP::flush()
   }
 }
 
-/* Start EthernetUDP socket, listening at local port PORT */
-uint8_t EthernetUDP::beginMulticast(IPAddress ip, uint16_t port)
-{
-    if (_sock != MAX_SOCK_NUM)
-        return 0;
-    
-    for (int i = 0; i < MAX_SOCK_NUM; i++) {
-        uint8_t s = w5500.readSnSR(i);
-        if (s == SnSR::CLOSED || s == SnSR::FIN_WAIT) {
-            _sock = i;
-            break;
-        }
-    }
-    
-    if (_sock == MAX_SOCK_NUM)
-        return 0;
-    
-    // Calculate MAC address from Multicast IP Address
-    byte mac[] = {  0x01, 0x00, 0x5E, 0x00, 0x00, 0x00 };
-    
-    mac[3] = ip[1] & 0x7F;
-    mac[4] = ip[2];
-    mac[5] = ip[3];
-    
-    w5500.writeSnDIPR(_sock, rawIPAddress(ip));   //239.255.0.1
-    w5500.writeSnDPORT(_sock, port);
-    w5500.writeSnDHAR(_sock,mac);
-    
-    _remaining = 0;
-    socket(_sock, SnMR::UDP, port, SnMR::MULTI);
-    return 1;
+void EthernetUDP::remoteIP(uint8_t *ip) {
+  w5500.readSnDIPR(_sock, ip);
+}
+
+void EthernetUDP::remoteMAC(uint8_t *mac) {
+  w5500.readSnDHAR(_sock, mac);
+}
+
+uint8_t EthernetUDP::getSocketMode() {
+  return w5500.readSnMR(_sock);
+}
+
+void EthernetUDP::setBroadcastBlock(bool block) {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  bitWrite(value, 6, block);
+  w5500.writeSnMR(_sock, value);
+}
+
+bool EthernetUDP::getBroadcastBlock() {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  return bitRead(value, 6);
+}
+
+void EthernetUDP::setUnicastBlock(bool block) {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  bitWrite(value, 4, block);
+  w5500.writeSnMR(_sock, value);
+}
+
+bool EthernetUDP::getUnicastBlock() {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  return bitRead(value, 4);
 }
 

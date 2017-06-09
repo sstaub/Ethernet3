@@ -402,8 +402,16 @@ void W5500Class::setRetransmissionTime(uint16_t _timeout) {
   writeRTR(_timeout);
 }
 
+uint16_t W5500Class::getRetransmissionTime() {
+  return readRTR();
+}
+
 void W5500Class::setRetransmissionCount(uint8_t _retry) {
   writeRCR(_retry);
+}
+
+uint8_t W5500Class::getRetransmissionCount() {
+  return readRCR();
 }
 
 void W5500Class::setPHYCFGR(uint8_t _val) {

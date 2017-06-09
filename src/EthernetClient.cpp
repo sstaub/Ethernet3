@@ -175,3 +175,28 @@ bool EthernetClient::operator==(const EthernetClient& rhs) {
 uint8_t EthernetClient::getSocketNumber() {
   return _sock;
 }
+
+void EthernetClient::remoteIP(uint8_t *ip) {
+   w5500.readSnDIPR(_sock, ip);
+}
+
+void EthernetClient::remoteMAC(uint8_t *mac) {
+   w5500.readSnDHAR(_sock, mac);
+}
+
+uint8_t EthernetClient::getSocketMode() {
+  return w5500.readSnMR(_sock);
+}
+
+void EthernetClient::setNoDelayedACK(bool ack) {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  bitWrite(value, 5, ack);
+  w5500.writeSnMR(_sock, value);
+}
+
+bool EthernetClient::getNoDelayedACK() {
+  uint8_t value;
+  value = w5500.readSnMR(_sock);
+  return bitRead(value, 5);
+}

@@ -30,6 +30,18 @@ public:
   virtual bool operator!=(const EthernetClient& rhs) { return !this->operator==(rhs); };
   uint8_t getSocketNumber();
 
+  // Return the IP address of the host who sent the current incoming packet
+  virtual void remoteIP(uint8_t *ip);
+  // Return the MAC address of the host who sent the current incoming packet
+  virtual void remoteMAC(uint8_t *mac);
+
+  // get the value of the socket mode register
+  virtual uint8_t getSocketMode();
+  // set the 'no Delayed ACK' option
+  virtual void setNoDelayedACK(bool ack = false);
+  // get the state of 'no Delayed ACK' option
+  virtual bool getNoDelayedACK();
+
   friend class EthernetServer;
   
   using Print::write;

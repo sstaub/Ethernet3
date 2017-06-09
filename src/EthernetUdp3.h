@@ -99,8 +99,18 @@ public:
 
   // Return the IP address of the host who sent the current incoming packet
   virtual IPAddress remoteIP() { return _remoteIP; };
+  virtual void remoteIP(uint8_t *ip);
   // Return the port of the host who sent the current incoming packet
   virtual uint16_t remotePort() { return _remotePort; };
+  // Return the MAC address of the host who sent the current incoming packet
+  virtual void remoteMAC(uint8_t *mac);
+
+  virtual uint8_t getSocketMode();
+  virtual void setBroadcastBlock(bool block = false); // set Broadcast blocking
+  virtual bool getBroadcastBlock(); // get Broadcast blocking state
+  virtual void setUnicastBlock(bool block = false); // set Unicast blocking, only  when socketin Multicast mode
+  virtual bool getUnicastBlock();  // get Unicast blocking state  
+  
 };
 
 #endif
