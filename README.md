@@ -121,10 +121,10 @@ For Hardware Reset you need to set the Pin number.
 
 There are two function to set and get the retransmission timeout and retry count, this helps to solve problem with TCP connections with unexpected very long timeouts.  Beware the the timeout value multiplier is 100us!
 
-	void Ethernet.setRtTimeOut(uint16_t);
-	uint16_t Ethernet.setRtTimeOut(uint16_t);
-	void Ethernet.setRtCount(uint16_t);
-	uint16_t Ethernet.setRtCount(uint16_t);
+	void Ethernet.setRtTimeOut(uint16_t _time);
+	uint16_t Ethernet.getRtTimeOut();
+	void Ethernet.setRtCount(uint8_t _count);
+	uint8_t Ethernet.getRtCount();
 
 ***example***
 	
