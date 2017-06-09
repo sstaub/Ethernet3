@@ -186,7 +186,9 @@ public:
   inline void getIPAddress(uint8_t * addr);
 
   inline void setRetransmissionTime(uint16_t timeout);
+  inline uint16_t getRetransmissionTime();
   inline void setRetransmissionCount(uint8_t _retry);
+  inline uint8_t getRetransmissionCount();
 
   inline void setPHYCFGR(uint8_t _val);
   inline uint8_t getPHYCFGR();
