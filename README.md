@@ -44,15 +44,16 @@ An Unicast blocking function is added to set and get the flag in a UDP socket.
 
 ## MDNS Responder 
 
-A MDNS responder can listen and respond to MDNS name requests, for example to have a 
-be accessible on the MDNS name "webserver3.local":
+The MDNS responder can listen and respond to MDNS name requests, for example a 
+webserver can be accessible via the MDNS name "webserver3.local".
 
 ***example***
 
 	char mdnsName[] = "webserver3"; 
 	EthernetMDNSResponder mdnsResponder;
 
-Setup the MDNS responder to listen to the configured name.
+Setup the MDNS responder to listen to the configured name (.local will be 
+appended).
 
 ***example***
 
