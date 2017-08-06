@@ -41,6 +41,31 @@ An Unicast blocking function is added to set and get the flag in a UDP socket.
 	
 	udp.setUnicastBlock(false);
 	udp.setUnicastBlock();
+
+## MDNS Responder 
+
+The MDNS responder can listen and respond to MDNS name requests, for example a 
+webserver can be accessible via the MDNS name "webserver3.local".
+
+***example***
+
+	char mdnsName[] = "webserver3"; 
+	EthernetMDNSResponder mdnsResponder;
+
+Setup the MDNS responder to listen to the configured name (.local will be 
+appended).
+
+***example***
+
+	mdnsResponder.begin(mdnsName)
+
+Call the update() function on the MDNS responder every loop iteration to
+make sure it can detect and respond to name requests.
+  
+***example***
+
+	mdnsResponder.poll();
+
 	
 ## PHY support
 

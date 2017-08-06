@@ -11,6 +11,7 @@ EthernetClient	KEYWORD1
 EthernetServer	KEYWORD1
 IPAddress	KEYWORD1
 EthernetUdp3	KEYWORD1
+EthernetMDNSResponder	KEYWORD1
 DNS	KEYWORD1
 DCHP	KEYWORD1
 Twitter	KEYWORD1
@@ -27,6 +28,7 @@ read	KEYWORD2
 peek	KEYWORD2
 flush	KEYWORD2
 stop	KEYWORD2
+poll	KEYWORD2
 connected	KEYWORD2
 begin	KEYWORD2
 beginMulticast	KEYWORD2
