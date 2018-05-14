@@ -116,7 +116,7 @@ int EthernetClass::begin(uint8_t *mac_address)
 
   if (strlen(_customHostname) != 0)
   {
-    _dhcp->setCustomHostname((char*)_customHostname);
+    _dhcp->setCustomHostname(_customHostname);
   }
   
   // Now try to get our config info from a DHCP server
