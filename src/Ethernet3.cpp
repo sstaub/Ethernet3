@@ -197,6 +197,7 @@ int EthernetClass::maintain(){
 
 void EthernetClass::setCustomHostname(char* hostname)
 {
+	memset(_customHostname, 0, 32);
 	memcpy((void*)_customHostname, (void*)hostname, strlen(hostname) >= 31 ? 31 : strlen(hostname));
 }
 
