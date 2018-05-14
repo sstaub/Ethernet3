@@ -6,6 +6,7 @@ I added many new functionalities.
 
 ## new in 1.5
 - custom hostname for DHCP
+- added new example for webclient "WebClientReadResponse.ino"
 
 You need to include
 
