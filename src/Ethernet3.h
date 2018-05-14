@@ -30,7 +30,7 @@ public:
   static uint8_t _state[MAX_SOCK_NUM];
   static uint16_t _server_port[MAX_SOCK_NUM];
 
-  EthernetClass() { _dhcp = NULL; _pinCS = 10; _maxSockNum = 8; memset(_customHostname, 0, 32); }
+  EthernetClass() { _dhcp = NULL; _pinCS = 10; _maxSockNum = 8; }
 
   void setRstPin(uint8_t pinRST = 9); // for WIZ550io or USR-ES1, must set befor Ethernet.begin
   void setCsPin(uint8_t pinCS = 10); // must set befor Ethernet.begin
