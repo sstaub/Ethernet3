@@ -48,6 +48,7 @@ duplexReport KEYWORD2
 macAddress KEYWORD2
 macAddressReport KEYWORD2
 init KEYWORD2
+setHostname KEYWORD2
 softreset KEYWORD2
 hardreset KEYWORD2
 setCsPin KEYWORD2
