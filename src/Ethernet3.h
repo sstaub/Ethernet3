@@ -21,6 +21,7 @@ class EthernetClass {
 private:
   IPAddress _dnsServerAddress;
   DhcpClass* _dhcp;
+  char _customHostname[32];
 public:
   uint8_t _maxSockNum;
   uint8_t _pinCS;
@@ -85,6 +86,8 @@ public:
   void macAddress(uint8_t mac[]); // get the MAC Address
   const char* macAddressReport(); // returns the the MAC Address as a string
 
+  void setHostname(char* hostname);
+  
   IPAddress localIP();
   IPAddress subnetMask();
   IPAddress gatewayIP();

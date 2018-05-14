@@ -207,15 +207,24 @@ void DhcpClass::send_DHCP_MESSAGE(uint8_t messageType, uint16_t secondsElapsed)
 
     // OPT - host name
     buffer[16] = hostName;
-    buffer[17] = strlen(HOST_NAME) + 6; // length of hostname + last 3 bytes of mac address
-    strcpy((char*)&(buffer[18]), HOST_NAME);
-
-    printByte((char*)&(buffer[24]), _dhcpMacAddr[3]);
-    printByte((char*)&(buffer[26]), _dhcpMacAddr[4]);
-    printByte((char*)&(buffer[28]), _dhcpMacAddr[5]);
-
-    //put data in w5500 transmit buffer
-    _dhcpUdpSocket.write(buffer, 30);
+	
+	if(_customHostname == 0)
+	{
+		// use default hostname
+		buffer[17] = strlen(HOST_NAME) + 6; // length of hostname + last 3 bytes of mac address
+		strcpy((char*)&(buffer[18]), HOST_NAME);
+		printByte((char*)&(buffer[24]), _dhcpMacAddr[3]);
+		printByte((char*)&(buffer[26]), _dhcpMacAddr[4]);
+		printByte((char*)&(buffer[28]), _dhcpMacAddr[5]);
+		_dhcpUdpSocket.write(buffer, 30);
+	}
+	else
+	{
+		// use custom hostname
+		buffer[17] = strlen(_customHostname); // length of _customHostname
+		_dhcpUdpSocket.write(buffer, 18);	
+		_dhcpUdpSocket.write(_customHostname, strlen(_customHostname));
+	}
 
     if(messageType == DHCP_REQUEST)
     {
@@ -398,6 +407,10 @@ uint8_t DhcpClass::parseDHCPResponse(unsigned long responseTimeout, uint32_t& tr
     return type;
 }
 
+void DhcpClass::setCustomHostname(char* hostname)
+{
+	_customHostname = hostname;
+}
 
 /*
     returns:

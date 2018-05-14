@@ -53,6 +53,11 @@ int EthernetClass::begin(void)
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
   w5500.getMACAddress(mac_address);
 
+  if (strlen(_customHostname) != 0)
+  {
+    _dhcp->setCustomHostname(_customHostname);
+  }
+  
   // Now try to get our config info from a DHCP server
   int ret = _dhcp->beginWithDHCP(mac_address);
   if(ret == 1)
@@ -109,6 +114,11 @@ int EthernetClass::begin(uint8_t *mac_address)
   w5500.setMACAddress(mac_address);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
 
+  if (strlen(_customHostname) != 0)
+  {
+    _dhcp->setCustomHostname((char*)_customHostname);
+  }
+  
   // Now try to get our config info from a DHCP server
   int ret = _dhcp->beginWithDHCP(mac_address);
   if(ret == 1)
@@ -183,6 +193,12 @@ int EthernetClass::maintain(){
     }
   }
   return rc;
+}
+
+void EthernetClass::setHostname(char* hostname)
+{
+	memset(_customHostname, 0, 32);
+	memcpy((void*)_customHostname, (void*)hostname, strlen(hostname) >= 31 ? 31 : strlen(hostname));
 }
 
 uint8_t EthernetClass::phyState() {
