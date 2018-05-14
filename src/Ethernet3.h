@@ -21,7 +21,7 @@ class EthernetClass {
 private:
   IPAddress _dnsServerAddress;
   DhcpClass* _dhcp;
-  uint8_t _customHostname[32];
+  char _customHostname[32];
 public:
   uint8_t _maxSockNum;
   uint8_t _pinCS;
