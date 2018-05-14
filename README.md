@@ -1,14 +1,23 @@
-# Ethernet3 v1.4
+# Ethernet3 v1.5
 Ethernet library for Arduino and Ethernetshield2 / WIZ550io / WIZ850io / USR-ES1 with Wiznet W5500 chip
 based on the Ethernet2 library of arduino.org
 
 I added many new functionalities.
 
+## new in 1.5
+- custom hostname for DHCP
+
 You need to include
 
     #include <Ethernet3.h> // instead Ethernet.h
     #include <EthernetUdp3.h> // instead EthernetUdp.h for UDP functionality
-    
+
+## custom hostname
+
+For use with DHCP you can set a custom hostname
+
+	Ethernet.setHostname(char* hostname);
+
 ## New init procedure **!!!**
 
 The init of the Ethernetinterface changed, the ordner is now:
