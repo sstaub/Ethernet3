@@ -12,9 +12,9 @@ You need to include
     #include <Ethernet3.h> // instead Ethernet.h
     #include <EthernetUdp3.h> // instead EthernetUdp.h for UDP functionality
 
-## custom hostname
+## Custom Hostname
 
-For use with DHCP you can set a custom hostname
+For use with DHCP you can set a custom hostname, this must be done before Ethernet.begin(mac)
 
 	Ethernet.setHostname(char* hostname);
 
