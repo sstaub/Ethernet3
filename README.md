@@ -41,6 +41,10 @@ You can set the Wake on LAN functionality
 
 	Ethernet.WoL(bool wol);
 
+## what's next
+
+In version 2 there will mDNS, NTP and a large code cleanup
+
 ## New init procedure **!!!**
 
 The init of the Ethernetinterface changed, the ordner is now:
