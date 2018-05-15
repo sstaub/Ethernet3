@@ -240,10 +240,8 @@ void EthernetClass::phyMode(phyMode_t mode) {
     bitWrite(val, 5, 1);
     w5500.setPHYCFGR(val);
     }
-  val = w5500.getPHYCFGR();
   bitWrite(val, 7, 0);
   w5500.setPHYCFGR(val);
-  val = w5500.getPHYCFGR();
   bitWrite(val, 7, 1);
   w5500.setPHYCFGR(val);
   }
