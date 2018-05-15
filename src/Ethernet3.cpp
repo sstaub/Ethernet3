@@ -195,11 +195,63 @@ int EthernetClass::maintain(){
   return rc;
 }
 
-void EthernetClass::setHostname(char* hostname)
-{
-	memset(_customHostname, 0, 32);
-	memcpy((void*)_customHostname, (void*)hostname, strlen(hostname) >= 31 ? 31 : strlen(hostname));
-}
+void EthernetClass::phyMode(phyMode_t mode) {
+  uint8_t val = w5500.getPHYCFGR();
+  bitWrite(val, 6, 1);
+  if (mode == HALF_DUPLEX_10) {
+    bitWrite(val, 3, 0);
+    bitWrite(val, 4, 0);
+    bitWrite(val, 5, 0);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == FULL_DUPLEX_10) {
+    bitWrite(val, 3, 1);
+    bitWrite(val, 4, 0);
+    bitWrite(val, 5, 0);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == HALF_DUPLEX_100) {
+    bitWrite(val, 3, 0);
+    bitWrite(val, 4, 1);
+    bitWrite(val, 5, 0);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == FULL_DUPLEX_100) {
+    bitWrite(val, 3, 1);
+    bitWrite(val, 4, 1);
+    bitWrite(val, 5, 0);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == FULL_DUPLEX_100_AUTONEG) {
+    bitWrite(val, 3, 0);
+    bitWrite(val, 4, 0);
+    bitWrite(val, 5, 1);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == POWER_DOWN) {
+    bitWrite(val, 3, 0);
+    bitWrite(val, 4, 1);
+    bitWrite(val, 5, 1);
+    w5500.setPHYCFGR(val);
+    }
+  else if (mode == ALL_AUTONEG) {
+    bitWrite(val, 3, 1);
+    bitWrite(val, 4, 1);
+    bitWrite(val, 5, 1);
+    w5500.setPHYCFGR(val);
+    }
+  val = w5500.getPHYCFGR();
+  bitWrite(val, 7, 0);
+  w5500.setPHYCFGR(val);
+  val = w5500.getPHYCFGR();
+  bitWrite(val, 7, 1);
+  w5500.setPHYCFGR(val);
+  }
+
+void EthernetClass::setHostname(char* hostname) {
+  memset(_customHostname, 0, 32);
+  memcpy((void*)_customHostname, (void*)hostname, strlen(hostname) >= 31 ? 31 : strlen(hostname));
+  }
 
 uint8_t EthernetClass::phyState() {
   return w5500.getPHYCFGR();
