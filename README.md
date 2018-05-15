@@ -7,6 +7,7 @@ I added many new functionalities.
 ## new in 1.5
 - custom hostname for DHCP
 - the PHY is configurable
+- Wake on LAN
 - added new example for webclient "WebClientReadResponse.ino"
 
 You need to include
@@ -34,6 +35,11 @@ ALL_AUTONEG (default)
    
 	Ethernet.phyMode(phyMode_t mode);
 
+## Wake on LAN
+
+You can set the Wake on LAN functionality
+
+	Ethernet.WoL(bool wol);
 
 ## New init procedure **!!!**
 
