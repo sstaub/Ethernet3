@@ -79,7 +79,8 @@ public:
 #endif
 
   int maintain();
-
+  void WoL(bool wol); // set Wake on LAN
+  bool WoL(); // get the WoL state
   void phyMode(phyMode_t mode); // set PHYCFGR
   uint8_t phyState(); // returns the PHYCFGR
   uint8_t link(); // returns the linkstate, 1 = linked, 0 = no link
