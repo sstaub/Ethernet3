@@ -17,21 +17,21 @@ You need to include
 ## Custom Hostname
 
 For use with DHCP you can set a custom hostname, this must be done before Ethernet.begin(mac).
-Following Modes are possible:
-   HALF_DUPLEX_10,
-   FULL_DUPLEX_10,
-   HALF_DUPLEX_100,
-   FULL_DUPLEX_100,
-   FULL_DUPLEX_100_AUTONEG,
-   POWER_DOWN,
-   ALL_AUTONEG (default)
 
 	Ethernet.setHostname(char* hostname);
 
 ## PHY Configuration
 
 The PHY is now configurable, this must done after Ethernet.begin()
-
+Following modes are possible:
+- HALF_DUPLEX_10,
+- FULL_DUPLEX_10,
+- HALF_DUPLEX_100,
+- FULL_DUPLEX_100,
+- FULL_DUPLEX_100_AUTONEG,
+- POWER_DOWN,
+- ALL_AUTONEG (default)
+   
 	Ethernet.phyMode(phyMode_t mode);
 
 
