@@ -195,6 +195,17 @@ int EthernetClass::maintain(){
   return rc;
 }
 
+void EthernetClass::WoL(bool wol) { 
+  uint8_t val = w5500.readMR();
+  bitWrite(val, 5, wol);
+  w5500.writeMR(val);
+  }
+
+bool EthernetClass::WoL() {
+  uint8_t val = w5500.readMR();
+  return bitRead(val, 5);
+  }
+
 void EthernetClass::phyMode(phyMode_t mode) {
   uint8_t val = w5500.getPHYCFGR();
   bitWrite(val, 6, 1);
