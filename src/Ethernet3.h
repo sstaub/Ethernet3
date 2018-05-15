@@ -17,6 +17,16 @@
 #include "EthernetServer.h"
 #include "Dhcp.h"
 
+enum phyMode_t {
+  HALF_DUPLEX_10,
+  FULL_DUPLEX_10,
+  HALF_DUPLEX_100,
+  FULL_DUPLEX_100,
+  FULL_DUPLEX_100_AUTONEG,
+  POWER_DOWN,
+  ALL_AUTONEG
+  };
+
 class EthernetClass {
 private:
   IPAddress _dnsServerAddress;
@@ -70,6 +80,7 @@ public:
 
   int maintain();
 
+  void phyMode(phyMode_t mode); // set PHYCFGR
   uint8_t phyState(); // returns the PHYCFGR
   uint8_t link(); // returns the linkstate, 1 = linked, 0 = no link
   const char* linkReport(); // returns the linkstate as a string
