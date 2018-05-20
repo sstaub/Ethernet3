@@ -45,6 +45,8 @@ You can set the Wake on LAN functionality
 
 In version 2 there will mDNS, NTP and a large code cleanup
 
+A new NTP is published https://github.com/sstaub/NTP
+
 ## New init procedure **!!!**
 
 The init of the Ethernetinterface changed, the ordner is now:
