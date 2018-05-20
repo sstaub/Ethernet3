@@ -43,9 +43,9 @@ You can set the Wake on LAN functionality
 
 ## what's next
 
-In version 2 there will mDNS, NTP and a large code cleanup
+In version 2 there will mDNS and a large code cleanup
 
-A new NTP is published https://github.com/sstaub/NTP
+A new NTP library is published https://github.com/sstaub/NTP
 
 ## New init procedure **!!!**
 
