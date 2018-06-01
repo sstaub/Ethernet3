@@ -93,7 +93,7 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gatewa
   // but with last octet being '1'
   IPAddress dns_server = local_ip;
   dns_server[3] = 1;
-  begin(local_ip, subnet, gateway, subnet);
+  begin(local_ip, subnet, gateway, dns_server);
 }
 
 void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server)
