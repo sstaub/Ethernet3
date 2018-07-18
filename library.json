@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/sstaub/Ethernet3"
   },
-  "version": "1.5.2",
+  "version": "1.5.3",
   "frameworks": "arduino",
   "platforms": "*"
 }
