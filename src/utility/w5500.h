@@ -198,6 +198,21 @@ public:
   uint16_t getTXFreeSize(SOCKET s);
   uint16_t getRXReceivedSize(SOCKET s);
 
+  /**
+   * @brief begin SPI transaction
+   *
+   * This function is meant to be used while using
+   * manual transaction control
+   */
+  void beginTransaction();
+  /**
+   * @brief end SPI transaction
+   *
+   * This function is meant to be used while using
+   * manual transaction control
+   */
+  void endTransaction();
+
 
   // W5500 Registers
   // ---------------
@@ -336,6 +351,7 @@ private:
 
 public:
   static const uint16_t SSIZE = 2048; // Max Tx buffer size
+  static bool auto_transaction_control; // enable automatic transaction control
 private:
   static const uint16_t RSIZE = 2048; // Max Rx buffer size
 

@@ -20,6 +20,8 @@
 // W5500 controller instance
 W5500Class w5500;
 
+bool W5500Class::auto_transaction_control = true;
+
 // SPI details
 SPISettings wiznet_SPI_settings(8000000, MSBFIRST, SPI_MODE0);
 uint8_t SPI_CS;
@@ -140,21 +142,30 @@ void W5500Class::read_data(SOCKET s, volatile uint16_t src, volatile uint8_t *ds
 
 uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
 {
-    SPI.beginTransaction(wiznet_SPI_settings);
+    if (auto_transaction_control)
+    {
+        SPI.beginTransaction(wiznet_SPI_settings);
+    }
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
     SPI.transfer(_cb);
     SPI.transfer(_data);
     resetSS();
-    SPI.endTransaction();
+    if (auto_transaction_control)
+    {
+        SPI.endTransaction();
+    }
 
     return 1;
 }
 
 uint16_t W5500Class::write(uint16_t _addr, uint8_t _cb, const uint8_t *_buf, uint16_t _len)
 {
-    SPI.beginTransaction(wiznet_SPI_settings);
+    if (auto_transaction_control)
+    {
+        SPI.beginTransaction(wiznet_SPI_settings);
+    }
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -163,28 +174,40 @@ uint16_t W5500Class::write(uint16_t _addr, uint8_t _cb, const uint8_t *_buf, uin
         SPI.transfer(_buf[i]);
     }
     resetSS();
-    SPI.endTransaction();
+    if (auto_transaction_control)
+    {
+        SPI.endTransaction();
+    }
 
     return _len;
 }
 
 uint8_t W5500Class::read(uint16_t _addr, uint8_t _cb)
 {
-    SPI.beginTransaction(wiznet_SPI_settings);
+    if (auto_transaction_control)
+    {
+        SPI.beginTransaction(wiznet_SPI_settings);
+    }
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
     SPI.transfer(_cb);
     uint8_t _data = SPI.transfer(0);
     resetSS();
-    SPI.endTransaction();
+    if (auto_transaction_control)
+    {
+        SPI.endTransaction();
+    }
 
     return _data;
 }
 
 uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _len)
 {
-    SPI.beginTransaction(wiznet_SPI_settings);
+    if (auto_transaction_control)
+    {
+        SPI.beginTransaction(wiznet_SPI_settings);
+    }
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -193,7 +216,10 @@ uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _
         _buf[i] = SPI.transfer(0);
     }
     resetSS();
-    SPI.endTransaction();
+    if (auto_transaction_control)
+    {
+        SPI.endTransaction();
+    }
 
     return _len;
 }
@@ -209,14 +235,20 @@ void W5500Class::execCmdSn(SOCKET s, SockCMD _cmd) {
 
 uint8_t W5500Class::readVersion(void)
 {
-    SPI.beginTransaction(wiznet_SPI_settings);
+    if (auto_transaction_control)
+    {
+        SPI.beginTransaction(wiznet_SPI_settings);
+    }
     setSS();
     SPI.transfer( 0x00 );
     SPI.transfer( 0x39 );
     SPI.transfer( 0x01);
     uint8_t _data = SPI.transfer(0);
     resetSS();
-    SPI.endTransaction();
+    if (auto_transaction_control)
+    {
+        SPI.endTransaction();
+    }
 
     return _data;
 }
@@ -234,6 +266,16 @@ uint8_t W5500Class::softReset(void)
 		delay(1);
 	} while (++count < 20);
 	return 0;
+}
+
+void W5500Class::beginTransaction()
+{
+    SPI.beginTransaction(wiznet_SPI_settings);
+}
+
+void W5500Class::endTransaction()
+{
+    SPI.endTransaction();
 }
 
 //#endif
