@@ -57,9 +57,9 @@ int EthernetClass::begin(void)
   {
     _dhcp->setCustomHostname(_customHostname);
   }
-  
+
   // Now try to get our config info from a DHCP server
-  int ret = _dhcp->beginWithDHCP(mac_address);
+  int ret = _dhcp->beginWithDHCP(mac_address, 480, 120);
   if(ret == 1)
   {
     // We've successfully found a DHCP server and got our configuration info, so set things
@@ -118,9 +118,9 @@ int EthernetClass::begin(uint8_t *mac_address)
   {
     _dhcp->setCustomHostname(_customHostname);
   }
-  
+
   // Now try to get our config info from a DHCP server
-  int ret = _dhcp->beginWithDHCP(mac_address);
+  int ret = _dhcp->beginWithDHCP(mac_address, 480, 120);
   if(ret == 1)
   {
     // We've successfully found a DHCP server and got our configuration info, so set things
@@ -195,7 +195,7 @@ int EthernetClass::maintain(){
   return rc;
 }
 
-void EthernetClass::WoL(bool wol) { 
+void EthernetClass::WoL(bool wol) {
   uint8_t val = w5500.readMR();
   bitWrite(val, 5, wol);
   w5500.writeMR(val);
