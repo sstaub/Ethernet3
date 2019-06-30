@@ -65,6 +65,8 @@ Multicast for udp added. You need to set the Multicast IP address and port to li
     EthernetUdp udp
     upd.beginMulticast(multicastIP, port);
 
+## Unicast blocking support
+
 An Unicast blocking function is added to set and get the flag in a UDP socket.
 
 	void setUnicastBlock(bool block);
