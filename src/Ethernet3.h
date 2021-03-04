@@ -98,7 +98,7 @@ public:
   void macAddress(uint8_t mac[]); // get the MAC Address
   const char* macAddressReport(); // returns the the MAC Address as a string
 
-  void setHostname(char* hostname);
+  void setHostname(const char* hostname);
   
   IPAddress localIP();
   IPAddress subnetMask();
