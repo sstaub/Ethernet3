@@ -257,7 +257,7 @@ void EthernetClass::phyMode(phyMode_t mode) {
   w5500.setPHYCFGR(val);
   }
 
-void EthernetClass::setHostname(char* hostname) {
+void EthernetClass::setHostname(const char* hostname) {
   memset(_customHostname, 0, 32);
   memcpy((void*)_customHostname, (void*)hostname, strlen(hostname) >= 31 ? 31 : strlen(hostname));
   }
