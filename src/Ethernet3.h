@@ -45,6 +45,10 @@ public:
   void setRstPin(uint8_t pinRST = 9); // for WIZ550io or USR-ES1, must set befor Ethernet.begin
   void setCsPin(uint8_t pinCS = 10); // must set befor Ethernet.begin
 
+  // Sets the DhcpClass instance to be used. Required if a local IP is not
+  // provided to begin.
+  void setDhcp(DhcpClass* dhcp) { _dhcp = dhcp; }
+
   // Initialize with less sockets but more RX/TX Buffer
   // maxSockNum = 1 Socket 0 -> RX/TX Buffer 16k
   // maxSockNum = 2 Socket 0, 1 -> RX/TX Buffer 8k
