@@ -36,11 +36,21 @@ void DhcpClass::reset_DHCP_lease(){
 int DhcpClass::request_DHCP_lease(){
     
     uint8_t messageType = 0;
-  
-    
-  
+      
+    //
+    // SKC: 21/05/2021
+    // Original Code was -
+    //    // Pick an initial transaction ID
+    //    _dhcpTransactionId = random(1UL, 2000UL);
+    // But consistently keeps crashing my code. And when not even being called! Just the existence of the
+    // call causes my code to be corrupted. Suspect there is an AVR chip bug causing memory corruption when 
+    // random() is included in a build. rand() routine also produces the same bug. 
+    // Have replaced with random code with that below which seems stable. As the random() was never seeded  
+    // by Ethernet3, it no worse a solution and avoids the random() or rand() calls.
+    //
+
     // Pick an initial transaction ID
-    _dhcpTransactionId = random(1UL, 2000UL);
+    _dhcpTransactionId = (micros() % 2000UL) + 1UL;
     _dhcpInitialTransactionId = _dhcpTransactionId;
 
     _dhcpUdpSocket.stop();
