@@ -46,7 +46,9 @@ void EthernetClass::hardreset() {
 int EthernetClass::begin(void)
 {
   uint8_t mac_address[6] ={0,};
-  _dhcp = new DhcpClass();
+  if (_dhcp == nullptr) {
+    _dhcp = new DhcpClass();
+  }
 
   // Initialise the basic info
   w5500.init(_maxSockNum, _pinCS);
@@ -108,7 +110,9 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gatewa
 #else
 int EthernetClass::begin(uint8_t *mac_address)
 {
-  _dhcp = new DhcpClass();
+  if (_dhcp == nullptr) {
+    _dhcp = new DhcpClass();
+  }
   // Initialise the basic info
   w5500.init(_maxSockNum, _pinCS);
   w5500.setMACAddress(mac_address);
