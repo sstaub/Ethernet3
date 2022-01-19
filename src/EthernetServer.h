@@ -6,7 +6,7 @@
 class EthernetClient;
 
 class EthernetServer : 
-public Server {
+public Print {
 private:
   uint16_t _port;
   void accept();
