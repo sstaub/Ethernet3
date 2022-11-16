@@ -52,7 +52,7 @@ void close(SOCKET s)
  */
 uint8_t listen(SOCKET s)
 {
-  if (w5500.readSnSR(s) != SnSR::INIT)
+  if (w5500.readSnSR(s) != SnSR::INITL)
     return 0;
   w5500.execCmdSn(s, Sock_LISTEN);
   return 1;

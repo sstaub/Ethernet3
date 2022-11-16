@@ -71,11 +71,11 @@ public:
   // Initialize the Ethernet shield to use the provided MAC address and gain the rest of the
   // configuration through DHCP.
   // Returns 0 if the DHCP configuration failed, and 1 if it succeeded
-  int begin(uint8_t *mac_address);
-  void begin(uint8_t *mac_address, IPAddress local_ip);
-  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet);
-  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway);
-  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server);
+  int begin(uint8_t *mac_address, SPIClass *spi = &SPI);
+  void begin(uint8_t *mac_address, IPAddress local_ip, SPIClass *spi = &SPI);
+  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, SPIClass *spi = &SPI);
+  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway, SPIClass *spi = &SPI);
+  void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server, SPIClass *spi = &SPI);
 #endif
 
   int maintain();
