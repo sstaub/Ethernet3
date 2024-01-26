@@ -98,7 +98,7 @@ public:
 class SnSR {
 public:
   static const uint8_t CLOSED      = 0x00;
-  static const uint8_t INIT        = 0x13;
+  static const uint8_t INITL       = 0x13;
   static const uint8_t LISTEN      = 0x14;
   static const uint8_t SYNSENT     = 0x15;
   static const uint8_t SYNRECV     = 0x16;
@@ -131,7 +131,8 @@ public:
 class W5500Class {
 
 public:
-  void init(uint8_t socketNumbers, uint8_t ss_pin = 10);
+  
+  void init(uint8_t socketNumbers, SPIClass *spi, uint8_t ss_pin = 10);
   static uint8_t softReset(void);
   uint8_t readVersion(void);
 
@@ -345,6 +346,7 @@ private:
   static inline void setSS()   {  digitalWrite(SPI_CS, LOW); }
   static inline void resetSS() {  digitalWrite(SPI_CS, HIGH); }
 };
+
 
 extern W5500Class w5500;
 

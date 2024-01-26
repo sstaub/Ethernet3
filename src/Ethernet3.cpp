@@ -10,6 +10,7 @@
 
 #include "Ethernet3.h"
 #include "Dhcp.h"
+#include "Arduino.h"
 
 // XXX: don't make assumptions about the value of MAX_SOCK_NUM.
 uint8_t EthernetClass::_state[MAX_SOCK_NUM] = { 0, };
@@ -108,13 +109,13 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gatewa
 }
 
 #else
-int EthernetClass::begin(uint8_t *mac_address)
+int EthernetClass::begin(uint8_t *mac_address, SPIClass *spi)
 {
   if (_dhcp == nullptr) {
     _dhcp = new DhcpClass();
   }
   // Initialise the basic info
-  w5500.init(_maxSockNum, _pinCS);
+  w5500.init(_maxSockNum, spi, _pinCS);
   w5500.setMACAddress(mac_address);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
 
@@ -138,33 +139,33 @@ int EthernetClass::begin(uint8_t *mac_address)
   return ret;
 }
 
-void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip)
+void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, SPIClass *spi)
 {
   IPAddress subnet(255, 255, 255, 0);
-  begin(mac_address, local_ip, subnet);
+  begin(mac_address, local_ip, subnet, spi);
 }
 
-void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet)
+void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, SPIClass *spi)
 {
   // Assume the gateway will be the machine on the same network as the local IP
   // but with last octet being '1'
   IPAddress gateway = local_ip;
   gateway[3] = 1;
-  begin(mac_address, local_ip, subnet, gateway);
+  begin(mac_address, local_ip, subnet, gateway, spi);
 }
 
-void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway)
+void EthernetClass::begin(uint8_t *mac_address, IPAddress local_ip, IPAddress subnet, IPAddress gateway, SPIClass *spi)
 {
   // Assume the DNS server will be the machine on the same network as the local IP
   // but with last octet being '1'
   IPAddress dns_server = local_ip;
   dns_server[3] = 1;
-  begin(mac_address, local_ip, subnet, gateway, dns_server);
+  begin(mac_address, local_ip, subnet, gateway, dns_server, spi);
 }
 
-void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server)
+void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress subnet, IPAddress gateway, IPAddress dns_server, SPIClass *spi)
 {
-  w5500.init(_maxSockNum, _pinCS);
+  w5500.init(_maxSockNum, spi, _pinCS);
   w5500.setMACAddress(mac);
   w5500.setIPAddress(local_ip.raw_address());
   w5500.setGatewayIp(gateway.raw_address());
