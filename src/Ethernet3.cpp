@@ -144,7 +144,10 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress subnet, IPAddress gatewa
 
 int EthernetClass::begin(uint8_t *mac_address)
 {
-  _dhcp = new DhcpClass();
+  if (_dhcp == NULL)
+  {
+    _dhcp = new DhcpClass();
+  }
   // Initialise the basic info
   w5500.init(_maxSockNum, _pinCS);
   w5500.setMACAddress(mac_address);
